@@ -10,6 +10,13 @@ import { ArrowLeft, Upload, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { toast } from "sonner";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Product {
   id?: string;
@@ -31,6 +38,22 @@ interface ProductPhoto {
   file?: File;
   isNew?: boolean;
 }
+
+const CATEGORIES = [
+  "Grocery",
+  "Stationary",
+  "Printouts",
+  "Personal Hygines",
+  "Dry Nuts",
+  "Snack and Beverages",
+  "Food Supplements",
+  "Baby Care Items",
+  "Instant Foods",
+  "Clothing",
+  "Electronics",
+  "Books",
+  "Others"
+];
 
 const ProductFormPage = () => {
   const { user } = useRequireAuth();
@@ -108,6 +131,10 @@ const ProductFormPage = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setProduct({ ...product, category: value });
   };
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -283,13 +310,21 @@ const ProductFormPage = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="category">Category</Label>
-                <Input
-                  id="category"
-                  name="category"
-                  value={product.category}
-                  onChange={handleChange}
-                  placeholder="e.g. Electronics, Clothing"
-                />
+                <Select 
+                  value={product.category} 
+                  onValueChange={handleCategoryChange}
+                >
+                  <SelectTrigger id="category">
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CATEGORIES.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">

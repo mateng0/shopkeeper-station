@@ -22,6 +22,13 @@ interface Product {
   quantity: string | null;
   return_policy: string | null;
   created_at: string;
+  photos?: ProductPhoto[];
+}
+
+interface ProductPhoto {
+  id: string;
+  photo_url: string;
+  product_id: string;
 }
 
 const DashboardPage = () => {
@@ -34,14 +41,39 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data, error } = await supabase
+        // Fetch products
+        const { data: productsData, error: productsError } = await supabase
           .from("products")
           .select("*")
           .order("created_at", { ascending: false });
 
-        if (error) throw error;
+        if (productsError) throw productsError;
         
-        setProducts(data || []);
+        // Fetch all photos for all products
+        const { data: photosData, error: photosError } = await supabase
+          .from("product_photos")
+          .select("*");
+
+        if (photosError) throw photosError;
+        
+        // Group photos by product_id
+        const photosByProduct: Record<string, ProductPhoto[]> = {};
+        photosData.forEach((photo) => {
+          if (photo.product_id) {
+            if (!photosByProduct[photo.product_id]) {
+              photosByProduct[photo.product_id] = [];
+            }
+            photosByProduct[photo.product_id].push(photo);
+          }
+        });
+        
+        // Combine products with their photos
+        const productsWithPhotos = productsData.map((product) => ({
+          ...product,
+          photos: photosByProduct[product.id] || []
+        }));
+        
+        setProducts(productsWithPhotos);
       } catch (error: any) {
         toast.error(error.message || "Error fetching products");
       } finally {
@@ -104,6 +136,15 @@ const DashboardPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
             <Card key={product.id} className="overflow-hidden">
+              {product.photos && product.photos.length > 0 && (
+                <div className="w-full h-40 overflow-hidden">
+                  <img 
+                    src={product.photos[0].photo_url} 
+                    alt={product.name} 
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" 
+                  />
+                </div>
+              )}
               <CardHeader className="pb-2">
                 <CardTitle className="text-xl">{product.name}</CardTitle>
                 <CardDescription className="line-clamp-2">{product.description || "No description"}</CardDescription>
