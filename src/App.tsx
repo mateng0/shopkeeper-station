@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProductFormPage from "./pages/ProductFormPage";
+import AdminPage from "./pages/AdminPage";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,11 @@ const App = () => (
             <Route path="/products/edit/:id" element={
               <AuthGuard>
                 <ProductFormPage />
+              </AuthGuard>
+            } />
+            <Route path="/admin" element={
+              <AuthGuard>
+                <AdminPage />
               </AuthGuard>
             } />
             <Route path="*" element={<NotFound />} />

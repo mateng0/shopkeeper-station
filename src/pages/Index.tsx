@@ -100,23 +100,30 @@ const Index = () => {
         <div className="container mx-auto py-4 px-4 flex justify-between items-center">
           <div className="flex items-center">
             <ShoppingBag className="h-6 w-6 mr-2 text-primary" />
-            <span className="font-bold text-xl">Vendor Dashboard</span>
+            <span className="font-bold text-xl">Mateng Marketplace</span>
           </div>
-          <Button 
-            onClick={() => navigate(user ? '/dashboard' : '/auth')}
-            variant="default"
-          >
-            {user ? 'Dashboard' : 'Login / Register'}
-          </Button>
+          <div className="flex gap-3">
+            {user && user.email === 'admin@example.com' && (
+              <Button onClick={() => navigate('/admin')} variant="outline">
+                Admin Panel
+              </Button>
+            )}
+            <Button 
+              onClick={() => navigate(user ? '/dashboard' : '/auth')}
+              variant="default"
+            >
+              {user ? 'Dashboard' : 'Login / Register'}
+            </Button>
+          </div>
         </div>
       </header>
 
       <main className="flex-grow">
         <section className="bg-gradient-to-b from-primary/10 to-background py-12 md:py-16">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Manage Your Products With Ease</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Welcome to Mateng Marketplace</h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              A simple yet powerful platform for vendors to add, edit, and track their product inventory
+              Discover a wide range of products from trusted vendors
             </p>
             <Button 
               size="lg" 
@@ -230,7 +237,7 @@ const Index = () => {
 
       <footer className="border-t py-8">
         <div className="container mx-auto px-4 text-center text-muted-foreground">
-          <p>© {new Date().getFullYear()} Vendor Dashboard. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Mateng Marketplace owned by Justmateng Pvt Ltd. All rights reserved.</p>
         </div>
       </footer>
     </div>
