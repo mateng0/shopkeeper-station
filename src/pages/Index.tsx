@@ -103,9 +103,17 @@ const Index = () => {
             <span className="font-bold text-xl">Mateng Marketplace</span>
           </div>
           <div className="flex gap-3">
-            {user && user.email === 'admin@example.com' && (
+            {user && user.email?.includes("admin") ? (
               <Button onClick={() => navigate('/admin')} variant="outline">
                 Admin Panel
+              </Button>
+            ) : (
+              <Button 
+                onClick={() => navigate('/admin-auth')} 
+                variant="outline"
+                size="sm"
+              >
+                Admin Login
               </Button>
             )}
             <Button 

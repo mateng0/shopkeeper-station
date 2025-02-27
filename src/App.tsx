@@ -9,6 +9,7 @@ import { AuthGuard } from "@/components/AuthGuard";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AuthPage from "./pages/AuthPage";
+import AdminAuthPage from "./pages/AdminAuthPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProductFormPage from "./pages/ProductFormPage";
 import AdminPage from "./pages/AdminPage";
@@ -25,6 +26,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<AuthPage />} />
+            <Route path="/admin-auth" element={<AdminAuthPage />} />
             <Route path="/dashboard" element={
               <AuthGuard>
                 <DashboardPage />

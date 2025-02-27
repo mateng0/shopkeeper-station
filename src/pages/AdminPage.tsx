@@ -67,7 +67,7 @@ const AdminPage = () => {
 
   // Redirect if not admin
   useEffect(() => {
-    if (user && user.email !== 'admin@example.com') {
+    if (user && !user.email?.includes("admin")) {
       navigate('/');
       toast.error("You don't have access to the admin panel");
     }
@@ -116,7 +116,7 @@ const AdminPage = () => {
       }
     };
 
-    if (user && user.email === 'admin@example.com') {
+    if (user && user.email?.includes("admin")) {
       fetchProducts();
     }
   }, [user, navigate]);
