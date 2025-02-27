@@ -9,7 +9,86 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      product_photos: {
+        Row: {
+          created_at: string | null
+          id: string
+          photo_url: string
+          product_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          photo_url: string
+          product_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          photo_url?: string
+          product_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_photos_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          description: string | null
+          discount: number | null
+          expiry: string | null
+          id: string
+          manufactured_by: string | null
+          mrp: number | null
+          name: string
+          quantity: string | null
+          return_policy: string | null
+          sku: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          discount?: number | null
+          expiry?: string | null
+          id?: string
+          manufactured_by?: string | null
+          mrp?: number | null
+          name: string
+          quantity?: string | null
+          return_policy?: string | null
+          sku?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          discount?: number | null
+          expiry?: string | null
+          id?: string
+          manufactured_by?: string | null
+          mrp?: number | null
+          name?: string
+          quantity?: string | null
+          return_policy?: string | null
+          sku?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
